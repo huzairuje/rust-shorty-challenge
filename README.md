@@ -21,11 +21,9 @@
     ```shell
      # HotReload
       cargo install cargo-watch
-     # SQLX-CLI
-      cargo install sqlx-cli
     ```
 2. make `.env` file on the root project folder
-3. setup the env like database, etc.
+3. setup the env like port or host, etc.
 4. compile the web app
    ```shell
       cargo build
