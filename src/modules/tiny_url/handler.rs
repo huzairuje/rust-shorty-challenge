@@ -59,6 +59,13 @@ pub async fn get_all_tiny_url() -> HttpResponse {
     return HttpResponse::Ok().json(resp);
 }
 
+#[get("/health")]
+pub async fn health() -> HttpResponse {
+    let resp: Response<String, ()> =
+        Response::success(StatusCode::OK, "healthy!".to_string(), "OK");
+    return HttpResponse::Ok().json(resp);
+}
+
 #[get("/{shortcode}")]
 pub async fn single_tiny_url(shortcode: web::Path<String>) -> HttpResponse {
     let shortcode = shortcode.into_inner();

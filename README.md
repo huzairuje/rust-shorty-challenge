@@ -1,18 +1,17 @@
-# Rust - Sample API notes with user authentication
-
+# Rust - Sample API for shorty challenge (tiny-url)
 ## Prerequisite
 1. rust build nightly using rustup chain command.
     a. install rust with this command (Unix like or linux)
     ```shell
        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     ```
-    b. install rust nightly (version this 1.71 rust nightly)
+    b. install rust nightly (version this 1.69 rust stable)
     ```shell
-      rustup install nightly
+      rustup install stable
     ```
     c. set the rust nightly installation set to default 
     ```shell
-      rustup default nightly
+      rustup default stable
     ```
     d. install the crate by this command
     ```shell
