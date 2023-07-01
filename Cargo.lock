@@ -1201,7 +1201,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rust-actix-sample"
+name = "rust-shorty-challenge"
 version = "0.1.0"
 dependencies = [
  "actix-cors",
