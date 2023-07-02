@@ -15,7 +15,7 @@ WORKDIR /usr/src/rust-shorty-challenge/
 COPY . .
 
 # Build the binary inside the container
-RUN cargo build --release
+RUN cargo rustc --release -- -C target-cpu=native
 
 ##############################################
 # STEP 2 build a small image using alpine:3.14
