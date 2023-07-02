@@ -5,13 +5,13 @@ mod modules;
 mod routes;
 
 use crate::routes::routes as route;
+use infrastructure::http_lib::Response;
+use std::env;
+use std::sync::{Arc, Mutex};
 use actix_web::http::StatusCode;
 use actix_web::middleware::Logger;
 use actix_web::{web, App, HttpResponse, HttpServer};
 use configuration::config::Config;
-use infrastructure::http_lib::Response;
-use std::env;
-use std::sync::{Arc, Mutex};
 
 pub struct AppState {
     #[allow(dead_code)]

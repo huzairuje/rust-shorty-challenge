@@ -1,19 +1,26 @@
 use crate::modules::tiny_url::service;
-use actix_web::{web, HttpResponse, post, get};
-use actix_web::http::StatusCode;
 use crate::modules::common::model::Data;
 use crate::modules::common::schema::RequestTinyUrl;
 use crate::infrastructure::http_lib::Response;
+use actix_web::{web, HttpResponse, post, get};
+use actix_web::http::StatusCode;
+use validator::{Validate, ValidationErrors};
 
 #[post("")]
-pub async fn create_tiny_url(req: web::Json<RequestTinyUrl>) -> HttpResponse {
-    let req = req.into_inner();
-
-    if req.url.is_empty() {
-        let resp: Response<(), ()> =
-            Response::error(StatusCode::BAD_REQUEST, "URL_NOT_SET");
-        return HttpResponse::Ok().json(resp);
+pub async fn create_tiny_url(body: web::Json<RequestTinyUrl>) -> HttpResponse {
+    //validate the struct from body
+    if let Err(errors) = body.validate() {
+        let resp: Response<(), ValidationErrors> = Response::custom(
+            StatusCode::BAD_REQUEST,
+            StatusCode::BAD_REQUEST.as_str(),
+            (),
+            errors,
+        );
+        return HttpResponse::BadRequest().json(resp);
     }
+
+    // set req after validation from body
+    let req: RequestTinyUrl = body.into_inner();
 
     if !req.shortcode.is_empty() {
         if !service::is_valid_short_code(&req.shortcode) {

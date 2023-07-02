@@ -1,8 +1,8 @@
+use crate::modules::common::model::{Data, list_all_tiny_url, LIST_ALL_TINY_URL};
 use chrono::prelude::*;
 use rand::Rng;
 use rand::distributions::Alphanumeric;
 use rand::rngs::ThreadRng;
-use crate::modules::common::model::{Data, list_all_tiny_url, LIST_ALL_TINY_URL};
 use regex::Regex;
 
 pub fn get_all_data() -> Vec<Data> {
