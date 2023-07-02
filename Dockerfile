@@ -1,7 +1,7 @@
 ####################################
 # STEP 1 build executable binary
 ####################################
-FROM rust:slim as builder
+FROM rust:1.69 as builder
 
 # Install required tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -19,18 +19,21 @@ RUN cargo rustc --release -- -C target-cpu=native
 
 RUN chmod +x /usr/src/rust-shorty-challenge/target/release/rust-shorty-challenge
 
-##############################################
-# STEP 2 build a small image using alpine:3.14
-##############################################
-FROM alpine:3.14
+#########################################################
+# STEP 2 build a small image using debian:buster-slim
+#########################################################
+FROM debian:buster-slim
 
 # Install runtime dependencies
-RUN apk --no-cache add ca-certificates
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy the .env file from .env.example to use as env conf
+COPY --from=builder /usr/src/rust-shorty-challenge/.env.example ./.env
 
 # Copy the binary from the builder stage
-COPY --from=builder /usr/src/rust-shorty-challenge/target/release/rust-shorty-challenge /usr/local/bin/rust-shorty-challenge
-
-COPY --from=builder /usr/src/rust-shorty-challenge/.env.example /usr/local/bin/.env
+COPY --from=builder /usr/src/rust-shorty-challenge/target/release/rust-shorty-challenge ./rust-shorty-challenge
 
 # Run the entrypoint
 CMD ["rust-shorty-challenge"]
