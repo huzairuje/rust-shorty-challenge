@@ -36,7 +36,9 @@ COPY --from=builder /usr/src/rust-shorty-challenge/.env /usr/local/bin/
 COPY --from=builder /usr/src/rust-shorty-challenge/target/release/rust-shorty-challenge /usr/local/bin/
 
 # Set the working directory
-WORKDIR /usr/src/rust-shorty-challenge/
+WORKDIR /usr/local/bin/
+
+EXPOSE 1111
 
 # Run the entrypoint
 CMD ["rust-shorty-challenge"]
