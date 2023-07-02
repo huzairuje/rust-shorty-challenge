@@ -53,7 +53,7 @@ pub async fn create_tiny_url(req: web::Json<RequestTinyUrl>) -> HttpResponse {
 
 #[get("")]
 pub async fn get_all_tiny_url() -> HttpResponse {
-    let list = service::get_all_data();
+    let list: Vec<Data> = service::get_all_data();
     let resp: Response<Vec<Data>, ()> =
         Response::success(StatusCode::OK, list, "OK");
     return HttpResponse::Ok().json(resp);
@@ -68,7 +68,7 @@ pub async fn health() -> HttpResponse {
 
 #[get("/{shortcode}")]
 pub async fn single_tiny_url(shortcode: web::Path<String>) -> HttpResponse {
-    let shortcode = shortcode.into_inner();
+    let shortcode: String = shortcode.into_inner();
     match service::get_single_data(&shortcode) {
         Some(data) => {
             service::update_stat(&data.shortcode);
@@ -86,7 +86,7 @@ pub async fn single_tiny_url(shortcode: web::Path<String>) -> HttpResponse {
 
 #[get("/{shortcode}/stats")]
 pub async fn stat_single_tiny_url(shortcode: web::Path<String>) -> HttpResponse {
-    let shortcode = shortcode.into_inner();
+    let shortcode: String = shortcode.into_inner();
     match service::get_single_data(&shortcode) {
         Some(data) => {
             let resp: Response<Data, ()> =

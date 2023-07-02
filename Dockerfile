@@ -30,10 +30,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the .env file from .env.example to use as env conf
-COPY --from=builder /usr/src/rust-shorty-challenge/.env.example ./.env
+COPY --from=builder /usr/src/rust-shorty-challenge/.env /usr/local/bin/
 
 # Copy the binary from the builder stage
-COPY --from=builder /usr/src/rust-shorty-challenge/target/release/rust-shorty-challenge ./rust-shorty-challenge
+COPY --from=builder /usr/src/rust-shorty-challenge/target/release/rust-shorty-challenge /usr/local/bin/
+
+# Set the working directory
+WORKDIR /usr/src/rust-shorty-challenge/
 
 # Run the entrypoint
 CMD ["rust-shorty-challenge"]
